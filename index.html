@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝑨𝑷𝑰 𝑲𝑬𝒀 𝑯𝑼𝒀 𝑴𝑰𝑵𝑯</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('https://sf-static.upanhlaylink.com/img/image_202604292be7d99f6d81d241b901050384d59134.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: -2;
+}
+#loginBox {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://sf-static.upanhlaylink.com/img/image_202604292be7d99f6d81d241b901050384d59134.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+}
+#loginBox::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+.login-card{
+  position: relative;
+  z-index: 2;
+  background: rgba(18, 0, 34, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 30px #ff00cc55;
+}
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+}
+button {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(90deg,#ff00cc,#8a2be2);
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+}
+#panel {
+  display: none;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px; 
+  width: 260px;
+  height: 100%;
+  background: linear-gradient(180deg, #020617, #0f172a, #1e293b);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: 0.3s ease;
+  z-index: 99999;
+}
+.sidebar.active {
+  left: 0;
+}
+.sidebar button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+}
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.card {
+  background: #120022;
+  padding: 25px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+.create-wrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:15px;
+  box-sizing:border-box;
+}
+
+.create-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #020617, #0f172a);
+  box-shadow: 0 0 25px #ff00cc55;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.create-card h1 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.form-row select,
+.form-row input,
+.form-row button {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.form-row select,
+.form-row input {
+  padding: 0 14px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.form-row input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.form-row button {
+  background: linear-gradient(90deg,#ff00cc,#8a2be2);
+  color: white;
+  font-weight: bold;
+}
+
+.result-box {
+  margin-top: 18px;
+}
+
+.key {
+  font-size: 16px;
+  color: #00ffcc;
+  word-break: break-word;
+  padding: 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+#expire{
+  margin-top:10px;
+  font-size:14px;
+  color:#ccc;
+}
+.list {
+  text-align: left;
+  max-height: 250px;
+  overflow: auto;
+  font-size: 14px;
+}
+.tab {
+  display: none;
+}
+.active {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: 220px;
+    flex-direction: column;
+  }
+
+  .sidebar h2 {
+    display: block;
+  }
+
+  .sidebar button {
+    width: 100%;
+  }
+
+  .create-card{
+    padding:30px;
+    max-width:500px;
+  }
+
+  .form-row{
+    flex-direction:row;
+    align-items:center;
+  }
+
+  .form-row select{
+    flex:1;
+  }
+
+  .form-row input{
+    width:170px;
+  }
+
+  .form-row button{
+    width:auto;
+    padding:0 22px;
+  }
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+@media (min-width: 768px) {
+  .file-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.file-card {
+  background: linear-gradient(145deg, #020617, #0f172a);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 0 20px #00000050;
+  transition: 0.3s;
+}
+.file-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 25px #00ccff55;
+}
+.file-item {
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+.file-item:hover {
+  background: rgba(0, 204, 255, 0.2);
+  transform: scale(1.05);
+}
+#userInfo {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 100000;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  padding: 8px 14px;
+  border-radius: 12px;
+
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+
+  color: #00ffcc;
+  box-shadow: 0 0 10px #00ffcc55;
+
+  transition: 0.3s;
+}
+
+#userInfo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00ffccaa;
+}
+.kick-btn {
+  padding: 6px 12px;        /* nhỏ lại */
+  font-size: 12px;
+  border-radius: 8px;
+
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  font-weight: 600;
+
+  background: rgba(255, 0, 60, 0.15);
+  color: #ff4d6d;
+
+  backdrop-filter: blur(6px);
+  transition: 0.2s;
+}
+
+.kick-btn:hover {
+  background: rgba(255, 0, 60, 0.3);
+  color: white;
+  box-shadow: 0 0 10px #ff003c88;
+}
+
+.kick-btn:active {
+  transform: scale(0.92);
+}
+</style>
+</head>
+<body>
+<div id="userInfo">API KEY HUY MINH</div>
+<button id="openMenu" style="
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:100000;
+  background:#000;
+  color:#fff;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+">
+☰
+</button>
+<div id="loginBox">
+  <div class="login-card">
+    <h2>🔐 Login Server Key</h2>
+    <input id="user" placeholder="Tài khoản">
+    <input id="pass" type="password" placeholder="Mật khẩu">
+    <button onclick="login()">Đăng nhập</button>
+    <p id="err" style="color:red"></p>
+  </div>
+</div>
+<div id="panel">
+  <div class="container">
+    <div class="sidebar">
+      <button onclick="document.querySelector('.sidebar').classList.remove('active')" 
+style="background:none;font-size:20px;">✖</button>
+      <h2>API KEY HUY MINH</h2>
+      <button onclick="showTab('create')">🔑 Tạo Key</button>
+      <button onclick="showTab('device')">💻 Thông tin máy</button>
+      <button onclick="showTab('history')">📜 Lịch sử key</button>
+      <button onclick="showTab('loginlog')">🔐 Lịch sử login</button>
+      <button onclick="logout()">🚪 Đăng xuất</button>
+    </div>
+    <div class="main">
+<div id="tab-create" class="tab active">
+  <div class="create-wrapper">
+
+    <div class="create-card">
+      <h1>🔑 Tạo Key</h1>
+      <div class="form-row">
+        <select id="days">
+          <option value="1">1 ngày</option>
+          <option value="3">3 ngày</option>
+          <option value="7">7 ngày</option>
+          <option value="10">10 ngày</option>
+          <option value="15">15 ngày</option>
+          <option value="30">30 ngày</option>
+          <option value="365">365 ngày</option>
+        </select>
+         <input id="maxDevices" type="number" placeholder="Số thiết bị (1-10000)" min="1" max="10000">
+        <button onclick="createKey()">Tạo Key</button>
+      </div>
+      <div class="result-box">
+       <div id="result" class="key"></div>
+       <button onclick="copyKey()" style="
+         margin-top:10px;
+         background:#00ccff;
+       ">
+    📋 Sao chép
+      </button>
+        <div id="expire"></div>
+</div>
+    </div>
+
+  </div>
+</div>
+      <!-- DEVICE -->
+      <div id="tab-device" class="card tab">
+        <h2>💻 Thông tin máy</h2>
+        <div id="deviceInfo"></div>
+      </div>
+
+      <!-- HISTORY KEY -->
+      <div id="tab-history" class="card tab">
+        <h2>📜 Lịch sử</h2>
+        <div id="historyList" class="list"></div>
+      </div>
+
+      <!-- LOGIN LOG -->
+<div id="tab-loginlog" class="card tab">
+  <h2>🔐 Lịch sử login</h2>
+
+  <div id="loginList" class="list"></div>
+
+  <!-- KHU VỰC ADMIN -->
+<div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap;">
+  <button class="kick-btn" onclick="kickUser('')"></button>
+  <button class="kick-btn" onclick="kickUser('')"></button>
+</div>
+</div>
+    </div>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAMI2lpIbfAIP-WZWboSPTmDHK086Rozh4",
+  authDomain: "api-key-app-3afab.firebaseapp.com",
+  projectId: "api-key-app-3afab",
+  storageBucket: "api-key-app-3afab.firebasestorage.app",
+  messagingSenderId: "171570451598",
+  appId: "1:171570451598:web:1234567890abcdef"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+let logoutTimer;
+const AUTO_LOGOUT_TIME = 20 * 60 * 1000;
+function resetLogoutTimer() {
+  clearTimeout(logoutTimer);
+  localStorage.setItem("expireTime", Date.now() + AUTO_LOGOUT_TIME);
+
+  logoutTimer = setTimeout(() => {
+    alert("⏰ Hết thời gian! Tự động đăng xuất.");
+    logout();
+  }, AUTO_LOGOUT_TIME);
+}
+const ACCOUNTS = [
+  { user: atob("aHV5bWluaA=="), pass: atob("aHV5bWluaGlvcw==") }
+];
+async function login() {
+  const u = user.value;
+  const p = pass.value;
+
+  const found = ACCOUNTS.find(acc => acc.user === u && acc.pass === p);
+
+  if (found) {
+    localStorage.setItem("currentUser", u);
+    localStorage.setItem("expireTime", Date.now() + AUTO_LOGOUT_TIME);
+
+    // 🔥 LƯU FIREBASE
+    await db.collection("logins").add({
+      user: u,
+      time: new Date().toLocaleString(),
+      device: navigator.userAgent
+    });
+    // tạo session user
+await db.collection("sessions").doc(u).set({
+  active: true,
+  lastLogin: Date.now()
+});
+
+    init();
+  } else {
+    err.innerText = "Sai tài khoản!";
+  }
+}
+function logout() {
+  localStorage.removeItem("login");
+  localStorage.removeItem("expireTime"); // 👈 thêm
+  location.reload();
+}
+function init() {
+  loginBox.style.display = "none";
+  panel.style.display = "block";
+  loadDevice();
+  loadHistory();
+  loadLoginLog();
+  resetLogoutTimer();
+  watchSession();
+}
+function showTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("tab-" + name).classList.add("active");
+}
+async function createKey() {
+  const days = document.getElementById("days").value;
+  let maxDevices = parseInt(document.getElementById("maxDevices").value || "1");
+
+  if (maxDevices < 1 || maxDevices > 10000) {
+    alert("Số thiết bị phải từ 1-10000");
+    return;
+  }
+
+  const res = await fetch(
+    `https://royal-dust-4a79.tranphat1357t.workers.dev/api/create?admin=BRIAN_2008&days=${days}&maxDevices=${maxDevices}`
+  );
+
+  const data = await res.json();
+
+  if (data.ok) {
+    result.innerText = data.key;
+
+    if (data.data.expiresAt) {
+      expire.innerText = "Hết hạn: " + new Date(data.data.expiresAt).toLocaleString();
+    }
+
+    const user = localStorage.getItem("currentUser");
+
+    // 🔥 LƯU FIREBASE (KEY = DOCUMENT ID)
+    await db.collection("keys").doc(data.key).set({
+      user: user,
+      key: data.key,
+      time: Date.now(),
+      devices: maxDevices
+    });
+
+    loadHistory();
+  }
+}
+async function loadHistory() {
+  const user = localStorage.getItem("currentUser");
+
+const snapshot = await db
+  .collection("keys")
+  .where("user", "==", user)
+  .get();
+
+  historyList.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const x = doc.data();
+
+    historyList.innerHTML += `
+      <div style="display:flex;justify-content:space-between;align-items:center;">   
+        <div>
+          🔑 ${x.key}<br>
+          🕒 ${new Date(x.time).toLocaleString()}
+        </div>
+        <button onclick="deleteKey('${x.key}')"
+          style="background:red;padding:8px 12px;border-radius:8px;font-size:12px;">
+          Xóa
+        </button>
+      </div>
+      <hr>
+    `;
+  });
+}
+async function deleteKey(key) {
+  if (!confirm("Xóa key này khỏi Firebase?")) return;
+
+  await db.collection("keys").doc(key).delete();
+
+  alert("✅ Đã xóa key khỏi Firebase");
+  loadHistory();
+}
+async function loadLoginLog() {
+  const snapshot = await db
+    .collection("logins")
+    .orderBy("time", "desc")
+    .get();
+
+  let countMap = {};
+  let logsHTML = "";
+
+  snapshot.forEach(doc => {
+    const x = doc.data();
+    if (!countMap[x.user]) {
+      countMap[x.user] = 0;
+    }
+    countMap[x.user]++;
+    logsHTML += `
+      <div>
+        🟢 ${x.user}<br>
+        🕒 ${x.time}
+      </div>
+      <hr>
+    `;
+  });
+  let statsHTML = "<h3>📊 Thống kê login</h3>";
+  for (let user in countMap) {
+    statsHTML += `👤 ${user}: ${countMap[user]} lần<br>`;
+  }
+  loginList.innerHTML = statsHTML + "<hr>" + logsHTML;
+}
+function loadDevice() {
+  deviceInfo.innerHTML = `
+  🌐 ${navigator.userAgent}<br><br>
+  💻 ${navigator.platform}<br><br>
+  🌍 ${navigator.language}
+  `;
+}
+async function revokeKey(key) {
+  if (!confirm("Bạn chắc chắn muốn khóa key này?")) return;
+
+  const res = await fetch(
+    `https://royal-dust-4a79.tranphat1357t.workers.dev/api/revoke?admin=BRIAN_2008&key=${key}`
+  );
+
+  const data = await res.json();
+
+  if (data.ok) {
+    // 🔥 XOÁ TRONG FIREBASE LUÔN
+    await db.collection("keys").doc(key).delete();
+
+    alert("✅ Đã khóa & xóa key");
+    loadHistory();
+  } else {
+    alert("❌ Lỗi: " + data.error);
+  }
+}
+function copyKey() {
+  const key = document.getElementById("result").innerText;
+  if (!key) {
+    alert("Chưa có key để copy!");
+    return;
+  }
+  navigator.clipboard.writeText(key)
+    .then(() => {
+      alert("✅ Đã sao chép key!");
+    })
+    .catch(() => {
+      alert("❌ Không thể sao chép!");
+    });
+}
+window.addEventListener("load", () => {
+  const sidebar = document.querySelector(".sidebar");
+  const openBtn = document.getElementById("openMenu");
+  openBtn.onclick = () => {
+    sidebar.classList.add("active");
+  };
+  document.addEventListener("click", (e) => {
+    if (!sidebar.contains(e.target) && e.target !== openBtn) {
+      sidebar.classList.remove("active");
+    }
+  });
+});
+["click", "mousemove", "keydown", "touchstart"].forEach(event => {
+  document.addEventListener(event, resetLogoutTimer);
+});
+function openLink(url) {
+  window.open(url, "_blank");
+}
+async function kickUser(targetUser) {
+  const currentUser = localStorage.getItem("currentUser");
+
+  // chỉ admin mới được kick
+  const ADMIN = "huyminh";
+
+if (currentUser !== ADMIN) {
+    alert("❌ Bạn không phải admin!");
+    return;
+  }
+
+  await db.collection("sessions").doc(targetUser).update({
+    active: false
+  });
+
+  alert("✅ Đã kick " + targetUser);
+}
+function watchSession() {
+  const user = localStorage.getItem("currentUser");
+  if (!user) return;
+
+  db.collection("sessions").doc(user)
+    .onSnapshot(doc => {
+      if (!doc.exists) return;
+
+      const data = doc.data();
+
+      if (data.active === false) {
+        alert("🚫 Bạn đã bị admin kick!");
+        logout();
+      }
+    });
+}
+</script>
+</body>
+</html>

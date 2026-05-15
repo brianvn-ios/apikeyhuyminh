@@ -244,11 +244,79 @@ button:active{
   }
 
 }
+.login-page{
+
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(0,0,0,0.85);
+
+  z-index:9999;
+
+}
+
+.login-box{
+
+  width:90%;
+  max-width:350px;
+
+  padding:25px;
+
+  border-radius:20px;
+
+  background:rgba(18,0,34,0.85);
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+  0 0 25px #ff00cc55,
+  0 0 50px #8a2be233;
+
+}
+
+.login-box h2{
+
+  text-align:center;
+  margin-bottom:20px;
+
+}
+
+.hidden{
+  display:none;
+}
 
 </style>
 </head>
 
 <body>
+  <!-- LOGIN ADMIN -->
+<div id="loginPage" class="login-page">
+
+<div class="login-box">
+
+    <h2>🔐 ADMIN LOGIN</h2>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="Tài khoản">
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Mật khẩu">
+
+    <button onclick="adminLogin()">
+      ĐĂNG NHẬP
+    </button>
+
+  </div>
+
+</div>
 
 <div class="top-title">
   API KEY HUY MINH
@@ -325,6 +393,60 @@ appId: "1:744043128336:web:2ec4b145220d3c7bbacc95"
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
+
+
+// ================= LOGIN ADMIN =================
+
+const ADMIN_USERS = [
+  atob("dGFuaA=="),    
+  atob("aHV5bWluaA==")  
+];
+
+const ADMIN_PASSWORDS = [
+  atob("dGFuaDIwMDk="),     
+  atob("aHV5bWluaGlvcw==")  
+
+];
+
+// Nếu đã login rồi → ẩn login page
+if(localStorage.getItem("ADMIN_LOGIN") === "true"){
+  document.getElementById("loginPage").classList.add("hidden");
+}
+
+window.adminLogin = function(){
+
+  const user =
+  document.getElementById("username").value;
+
+  const pass =
+  document.getElementById("password").value;
+
+  if(
+    ADMIN_USERS.includes(user) &&
+    ADMIN_PASSWORDS.includes(pass)
+  ){
+
+    localStorage.setItem(
+      "ADMIN_LOGIN",
+      "true"
+    );
+
+    document
+    .getElementById("loginPage")
+    .classList.add("hidden");
+
+    alert("✅ Đăng nhập thành công");
+
+  }else{
+
+    alert("❌ Sai tài khoản hoặc mật khẩu");
+
+  }
+
+}
+
+
+// ================= TẠO KEY =================
 
 window.createKey = async function(){
 
@@ -418,6 +540,9 @@ ${key}
 
 }
 
+
+// ================= CHECK KEY =================
+
 window.checkKey = async function(){
 
 const key =
@@ -504,6 +629,10 @@ document.getElementById("result").innerHTML = `
 `;
 
 }
+
+
+// ================= COPY KEY =================
+
 window.copyKey = function(){
 
 const text =
@@ -525,7 +654,9 @@ alert("✅ Đã sao chép");
 });
 
 }
+
 export {};
+
 </script>
 
 </body>
